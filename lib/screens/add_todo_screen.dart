@@ -1,10 +1,13 @@
 import "package:flutter/material.dart";
 
 class AddTodoScreen extends StatelessWidget {
-  const AddTodoScreen({super.key});
+  const AddTodoScreen({super.key, required this.textFieldCallback});
+
+  final Function textFieldCallback;
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController textEditingController = TextEditingController();
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(
@@ -26,6 +29,7 @@ class AddTodoScreen extends StatelessWidget {
               ),
               SizedBox(height: 10.0),
               TextField(
+                controller: textEditingController,
                 autofocus: true,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
@@ -49,7 +53,11 @@ class AddTodoScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(40.0),
                 color: Colors.lightBlueAccent,
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    textFieldCallback(textEditingController.text);
+                    textEditingController.clear();
+                    Navigator.pop(context);
+                  },
                   child: Text('Add', style: TextStyle(color: Colors.white)),
                 ),
               ),
