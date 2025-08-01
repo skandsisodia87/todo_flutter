@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:todo_flutter/models/task_data.dart";
 
 class AddTodoScreen extends StatelessWidget {
-  const AddTodoScreen({super.key, required this.textFieldCallback});
-
-  final Function textFieldCallback;
+  const AddTodoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,10 @@ class AddTodoScreen extends StatelessWidget {
                 color: Colors.lightBlueAccent,
                 child: MaterialButton(
                   onPressed: () {
-                    textFieldCallback(textEditingController.text);
+                    Provider.of<TaskData>(
+                      context,
+                      listen: false,
+                    ).addTask(textEditingController.text);
                     textEditingController.clear();
                     Navigator.pop(context);
                   },

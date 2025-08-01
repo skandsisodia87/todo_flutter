@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo_flutter/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_flutter/models/task_data.dart';
 import 'package:todo_flutter/screens/add_todo_screen.dart';
 import 'package:todo_flutter/widgets/tasks_list.dart';
 
-class TasksScreen extends StatefulWidget {
+class TasksScreen extends StatelessWidget {
   const TasksScreen({super.key});
-
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'Bring milk'),
-    Task(name: 'Bring egg'),
-    Task(name: 'Bring bread'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +44,7 @@ class _TasksScreenState extends State<TasksScreen> {
                     ),
                   ),
                   Text(
-                    '${tasks.length} Tasks',
+                    '${Provider.of<TaskData>(context).itemCount} Tasks',
                     style: TextStyle(color: Colors.white, fontSize: 18.0),
                   ),
                 ],
@@ -70,7 +60,7 @@ class _TasksScreenState extends State<TasksScreen> {
                     topLeft: Radius.circular(20.0),
                   ),
                 ),
-                child: TasksList(tasks: tasks),
+                child: TasksList(),
               ),
             ),
           ],
@@ -82,13 +72,7 @@ class _TasksScreenState extends State<TasksScreen> {
           showModalBottomSheet(
             isScrollControlled: true,
             context: context,
-            builder: (BuildContext context) => AddTodoScreen(
-              textFieldCallback: (newTitle) {
-                setState(() {
-                  tasks.add(Task(name: newTitle));
-                });
-              },
-            ),
+            builder: (BuildContext context) => AddTodoScreen(),
           );
         },
         child: Icon(Icons.add, color: Colors.white),
